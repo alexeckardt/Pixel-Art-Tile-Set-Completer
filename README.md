@@ -3,4 +3,6 @@ Python Script that, given 4 tiles, creates an entire set of tiles that can then 
 
 See ./infiles and ./outfiles for input and output examples. 
 
-![image](https://user-images.githubusercontent.com/50144777/195236653-f63cdc88-34cf-46cd-a44e-f6b2a092eff2.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/50144777/195236775-959afc42-fa1f-454f-bb70-92c717a17244.png" alt="Image showing the end effect"/>
+</p>
