@@ -1,6 +1,7 @@
-# Writen by Alex Eckardt 2022
+# Writen by Alex Eckardt 2023
 from PIL import Image
 import image_aux
+import os
 
 # Contants; Configure
 tileSize = 16;
@@ -9,10 +10,59 @@ leftTile = (0, 1)
 rightTile = (2, 1)
 bottomTile = (1, 2)
 
-def generate_set(fileName):
+inputdir = "./inputs"
+outputdir = "./output"
 
-    #Generate Source
-    sourceImage = Image.open("infiles/{}.png".format(fileName));
+#
+# Show All Files Availaible in in
+#
+def print_infiles():
+    #Setup
+    dir_list = os.listdir(inputdir)
+    dir_list = [x for x in dir_list if ".png" in x]
+
+    print("\n\nSelect From Input Files in " + inputdir);
+
+    for suitablefile in dir_list:
+        suitFileName=suitablefile.replace(".png", "") + " "
+        print(suitFileName);
+
+
+#
+# Function To Get Input. LOads File if pass, retrys if fails.
+#
+def get_input_file():
+
+    print_infiles()
+
+    filename = input("\nEnter Input Cross File Name: ");   
+
+    #Try Getting
+    try:
+        #Generate Source From Input
+        sourceImage = Image.open("{}/{}.png".format(inputdir, filename));
+        return filename, sourceImage
+    except:
+        print("\n\nNo PNG file with that name exists in {}".format(inputdir))
+        return None, None
+
+#
+#
+def start_process():
+
+     #Input
+    filename = None;
+    sourceImage = None;
+
+    #
+    while (sourceImage == None):
+        filename, sourceImage = get_input_file();
+
+    #Generate Set
+    generate_set(filename, sourceImage);
+
+
+def generate_set(fileName, sourceImage):
 
     #Get Source Dimentions
     width, height = sourceImage.size;
@@ -128,8 +178,9 @@ def generate_set(fileName):
     image_aux.cloneTile(sourceImage, finalImage, (1,1), (1,1));
 
     #Save
-    finalImage.save("outfiles/{}.png".format(fileName));
-
+    outfilename = "{}/{}.png".format(outputdir, fileName);
+    finalImage.save(outfilename);
+    print("\nSaved file to " + outfilename + "\n");
     #
     #
     #
@@ -139,14 +190,3 @@ def generate_set(fileName):
     finalImage.close();
     sourceRampImageTop.close();
     sourceRampImageBottom.close();
-
-
-
-
-if (__name__ == "__main__"):
-
-    #Generate Set
-    generate_set("cross_to_set");
-
-    #Generate Sample Set
-    generate_set("cross_to_set_sample_usage");
